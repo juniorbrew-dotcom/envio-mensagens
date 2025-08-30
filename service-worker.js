@@ -2,10 +2,12 @@ self.addEventListener("install", event => {
   event.waitUntil(
     caches.open("rj-cache").then(cache => {
       return cache.addAll([
-        "index.html",
-        "manifest.json",
-        "icon-192.png",
-        "icon-512.png"
+        "./index.html",
+        "./style.css",
+        "./script.js",
+        "./manifest.json",
+        "./icon-192.png",
+        "./icon-512.png"
       ]);
     })
   );
