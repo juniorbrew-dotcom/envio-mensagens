@@ -1,7 +1,7 @@
 {
   "name": "RJ Soluções - Ferramenta de Mensagens",
   "short_name": "RJ Mensagens",
-  "start_url": "index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0078D7",
