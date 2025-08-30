@@ -3,50 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Sistema de cadastro futurista com envio via WhatsApp" />
-  <meta name="keywords" content="cadastro, clientes, WhatsApp, mensagens, PWA, futurista" />
-  <meta name="author" content="Edson" />
-  <title>Cadastro Futurista</title>
-
-  <!-- PWA Essentials -->
+  <title>Cadastro de Clientes</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon-192.png" />
   <link rel="apple-touch-icon" href="icon-512.png" />
-  <meta name="theme-color" content="#00ffcc" />
-
-  <!-- Fonte futurista -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500&display=swap" rel="stylesheet" />
-
-  <!-- Estilo Futurista e Responsivo -->
+  <meta name="theme-color" content="#4CAF50" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0f0f0f;
-      --card: #1a1a1a;
-      --accent: #00ffcc;
-      --accent-hover: #00e6b8;
-      --text: #e0e0e0;
-      --border: #333;
-      --radius: 10px;
-      --glow: 0 0 10px var(--accent);
+      --primary: #4CAF50;
+      --primary-dark: #388E3C;
+      --background: #f5f5f5;
+      --card: #ffffff;
+      --text: #333;
+      --border: #ddd;
+      --radius: 8px;
+      --shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
     body {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 16px;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background);
       margin: 0;
       padding: 0;
-      background-color: var(--bg);
       color: var(--text);
     }
 
     header {
-      background-color: var(--card);
-      color: var(--accent);
+      background-color: var(--primary);
+      color: white;
       padding: 1rem;
       text-align: center;
       font-weight: 500;
-      box-shadow: var(--glow);
-      border-bottom: 2px solid var(--accent);
+      box-shadow: var(--shadow);
     }
 
     .container {
@@ -55,15 +44,14 @@
       padding: 1rem;
       background-color: var(--card);
       border-radius: var(--radius);
-      box-shadow: var(--glow);
+      box-shadow: var(--shadow);
       overflow-x: hidden;
     }
 
     h2 {
       margin-top: 2rem;
       font-size: 1.2rem;
-      color: var(--accent);
-      text-shadow: var(--glow);
+      color: var(--primary);
     }
 
     input, select, textarea, button {
@@ -73,29 +61,20 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       font-size: 1rem;
-      background-color: #121212;
-      color: var(--text);
       box-sizing: border-box;
     }
 
     button {
-      background-color: var(--accent);
-      color: #000;
-      font-weight: 600;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: var(--glow);
+      transition: background-color 0.3s ease;
     }
 
     button:hover {
-      background-color: var(--accent-hover);
-      box-shadow: 0 0 15px var(--accent-hover);
-    }
-
-    button img {
-      vertical-align: middle;
-      margin-right: 0.5rem;
-      max-height: 24px;
+      background-color: var(--primary-dark);
     }
 
     table {
@@ -111,16 +90,8 @@
     }
 
     th {
-      background-color: #222;
-      color: var(--accent);
+      background-color: #f0f0f0;
       font-weight: 500;
-      text-shadow: var(--glow);
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
-      display: block;
     }
 
     .modal {
@@ -128,20 +99,19 @@
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.8);
+      background-color: rgba(0,0,0,0.5);
       justify-content: center;
       align-items: center;
       z-index: 999;
     }
 
     .modal-content {
-      background-color: #121212;
+      background-color: var(--card);
       padding: 1rem;
       border-radius: var(--radius);
       width: 90%;
       max-width: 500px;
-      box-shadow: var(--glow);
-      color: var(--text);
+      box-shadow: var(--shadow);
     }
 
     .mensagem-item {
@@ -149,9 +119,7 @@
       padding: 0.75rem;
       margin-top: 0.5rem;
       border-radius: var(--radius);
-      background-color: #1c1c1c;
-      color: var(--accent);
-      box-shadow: var(--glow);
+      background-color: #fafafa;
     }
 
     @media (max-width: 600px) {
@@ -170,7 +138,6 @@
 
       input, select, textarea, button {
         font-size: 15px;
-        box-sizing: border-box;
       }
 
       button {
@@ -181,10 +148,9 @@
 </head>
 <body>
   <header>
-    <h1>Cadastro Futurista</h1>
+    <h1>Cadastro de Clientes</h1>
   </header>
   <div class="container">
-        <!-- Formulário de Cadastro -->
     <h2>Adicionar Cliente</h2>
     <form id="formCliente">
       <input type="text" id="nome" name="nome" placeholder="Nome" required />
@@ -194,10 +160,8 @@
       <button type="submit">Salvar Cliente</button>
     </form>
 
-    <!-- Campo de Busca -->
     <input type="text" id="busca" placeholder="Buscar cliente..." />
 
-    <!-- Tabela de Clientes -->
     <table id="tabelaClientes">
       <thead>
         <tr>
@@ -211,7 +175,6 @@
       <tbody></tbody>
     </table>
 
-    <!-- Modal de Mensagens -->
     <div class="modal" id="modalMensagem">
       <div class="modal-content">
         <h3>Enviar Mensagem</h3>
@@ -222,7 +185,6 @@
       </div>
     </div>
 
-    <!-- Mensagens Cobrança -->
     <h2>Mensagens Cobrança</h2>
     <form id="formMensagem">
       <input type="text" id="tituloMensagem" placeholder="Digite um título para a mensagem..." required />
@@ -230,12 +192,12 @@
       <button type="submit">Adicionar Mensagem</button>
     </form>
     <div id="listaMensagens"></div>
-  </div> <!-- Fim da .container -->
-    <script>
-    // Registro do Service Worker
+  </div>
+
+  <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log('Service Worker registrado com sucesso!'))
+        .then(() => console.log('Service Worker registrado!'))
         .catch(error => console.error('Erro ao registrar Service Worker:', error));
     }
 
@@ -290,12 +252,8 @@
 
     busca.addEventListener('input', () => {
       const termo = busca.value.toLowerCase();
-      const filtrados = clientes.filter(c =>
-        c.nome.toLowerCase().includes(termo) ||
-        c.telefone.includes(termo)
-      );
-      tabela.innerHTML = '';
-      filtrados.forEach((cliente, index) => {
+      const filtrados =
+              filtrados.forEach((cliente, index) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${cliente.nome}</td>
