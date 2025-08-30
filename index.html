@@ -153,6 +153,16 @@
         color: var(--primary);
       }
 
+      td[data-label="Ações"] {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      td[data-label="Ações"] button {
+        width: 100%;
+      }
+
       .modal-content {
         width: 95%;
         padding: 0.75rem;
@@ -250,13 +260,14 @@
           <td data-label="Valor">R$ ${parseFloat(cliente.valor).toFixed(2)}</td>
           <td data-label="Vencimento">${cliente.vencimento}</td>
           <td data-label="Ações">
-            <button onclick="abrirModal(${index})">WhatsApp</button>
+            <button onclick="abrirModal(${index})
+                        <button onclick="abrirModal(${index})">WhatsApp</button>
             <button onclick="editarCliente(${index})">Editar</button>
             <button onclick="excluirCliente(${index})">Excluir</button>
           </td>
         `;
         tabela.appendChild(tr);
-              });
+      });
     }
 
     formCliente.addEventListener('submit', e => {
