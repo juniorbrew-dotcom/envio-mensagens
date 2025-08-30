@@ -3,63 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Sistema de cadastro de clientes com mensagens via WhatsApp" />
-  <meta name="keywords" content="cadastro, clientes, WhatsApp, mensagens, cobrança" />
+  <meta name="description" content="Sistema de cadastro e envio de mensagens via WhatsApp" />
+  <meta name="keywords" content="cadastro, clientes, WhatsApp, mensagens, PWA" />
   <meta name="author" content="Edson" />
-  <title>Cadastro de Cliente</title>
+  <title>Cadastro de Clientes</title>
 
-  <!-- PWA -->
+  <!-- Ícones para PWA -->
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon-192.png" />
   <link rel="apple-touch-icon" href="icon-512.png" />
-  <meta name="theme-color" content="#2e7d32" />
+  <meta name="theme-color" content="#4CAF50" />
 
   <!-- Estilos -->
   <style>
-    * {
-      box-sizing: border-box;
-    }
     body {
+      font-family: Arial, sans-serif;
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f0f0;
-      color: #333;
+      padding: 0;
+      background-color: #f4f4f4;
     }
     header {
-      background-color: #2e7d32;
+      background-color: #4CAF50;
       color: white;
       padding: 1rem;
       text-align: center;
     }
     .container {
-      max-width: 1000px;
-      margin: auto;
       padding: 1rem;
-      background-color: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      margin-top: 1rem;
-      border-radius: 8px;
     }
-    h2 {
-      color: #2e7d32;
-      margin-top: 0;
-    }
-    input, textarea, select, button {
-      width: 100%;
-      padding: 0.6rem;
+    input, select, button {
       margin: 0.5rem 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    button {
-      background-color: #2e7d32;
-      color: white;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #1b5e20;
+      padding: 0.5rem;
+      width: 100%;
+      box-sizing: border-box;
     }
     table {
       width: 100%;
@@ -67,72 +43,74 @@
       margin-top: 1rem;
     }
     th, td {
-      padding: 0.6rem;
       border: 1px solid #ddd;
+      padding: 0.5rem;
       text-align: left;
     }
     th {
-      background-color: #e0e0e0;
+      background-color: #f2f2f2;
+      cursor: pointer;
     }
-    .actions button {
-      margin-right: 0.3rem;
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
     }
-    .section {
-      margin-top: 2rem;
+    .modal-content {
+      background-color: white;
+      padding: 1rem;
+      border-radius: 5px;
+      width: 90%;
+      max-width: 500px;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Cadastro de Cliente</h1>
+    <h1>Cadastro de Clientes</h1>
   </header>
   <div class="container">
         <!-- Formulário de Cadastro -->
-    <section>
-      <h2>Adicionar Cliente</h2>
-      <form id="formCliente">
-        <input type="text" id="nome" placeholder="Nome" required />
-        <input type="tel" id="telefone" placeholder="Telefone (com DDD)" required />
-        <input type="number" id="valor" placeholder="Valor (R$)" required min="0" step="0.01" />
-        <input type="date" id="vencimento" required />
-        <button type="submit">Salvar</button>
-      </form>
-    </section>
+    <h2>Adicionar Cliente</h2>
+    <form id="formCliente">
+      <input type="text" id="nome" placeholder="Nome" required />
+      <input type="tel" id="telefone" placeholder="Telefone (com DDD)" required />
+      <input type="number" id="valor" placeholder="Valor (R$)" required min="0" step="0.01" />
+      <input type="date" id="vencimento" required />
+      <button type="submit">Salvar Cliente</button>
+    </form>
 
-    <!-- Busca de Cliente -->
-    <section class="section">
-      <h2>Buscar Cliente</h2>
-      <input type="text" id="busca" placeholder="Buscar cliente..." />
-    </section>
+    <!-- Busca -->
+    <input type="text" id="busca" placeholder="Buscar cliente..." />
 
     <!-- Tabela de Clientes -->
-    <section class="section">
-      <h2>Lista de Clientes</h2>
-      <table id="tabelaClientes">
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Telefone</th>
-            <th>Valor</th>
-            <th>Vencimento</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </section>
+    <table id="tabelaClientes">
+      <thead>
+        <tr>
+          <th data-col="nome">Nome</th>
+          <th data-col="telefone">Telefone</th>
+          <th data-col="valor">Valor</th>
+          <th data-col="vencimento">Vencimento</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
 
-    <!-- Mensagens Padrão -->
-    <section class="section">
-      <h2>Mensagens Padrão</h2>
-      <form id="formMensagem">
-        <input type="text" id="tituloMensagem" placeholder="Digite um título para a mensagem..." required />
-        <textarea id="conteudoMensagem" rows="3" placeholder="Digite uma mensagem com os campos {nome}, {valor}, {vencimento}..." required></textarea>
-        <button type="submit">Adicionar Mensagem</button>
-      </form>
-
-      <div id="listaMensagens"></div>
-    </section>
+    <!-- Modal de Mensagens -->
+    <div class="modal" id="modalMensagem">
+      <div class="modal-content">
+        <h3>Enviar Mensagem</h3>
+        <select id="mensagemPadrao"></select>
+        <textarea id="mensagemPersonalizada" rows="4" placeholder="Ou escreva sua própria mensagem..."></textarea>
+        <button id="enviarWhatsapp">Enviar via WhatsApp</button>
+        <button onclick="fecharModal()">Fechar</button>
+      </div>
+    </div>
       </div> <!-- Fim da .container -->
 
   <!-- Scripts -->
@@ -144,23 +122,26 @@
         .catch(error => console.error('Erro ao registrar Service Worker:', error));
     }
 
-    // Dados iniciais
-    let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-    let mensagens = JSON.parse(localStorage.getItem('mensagens')) || [];
-
-    const formCliente = document.getElementById('formCliente');
+    // Dados e funções principais
+    const form = document.getElementById('formCliente');
     const tabela = document.getElementById('tabelaClientes').querySelector('tbody');
     const busca = document.getElementById('busca');
-    const formMensagem = document.getElementById('formMensagem');
-    const listaMensagens = document.getElementById('listaMensagens');
+    const mensagemPadrao = document.getElementById('mensagemPadrao');
+    const mensagemPersonalizada = document.getElementById('mensagemPersonalizada');
+    const modal = document.getElementById('modalMensagem');
+    let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+    let mensagens = [
+      "Olá, tudo bem? Seu pagamento está pendente.",
+      "Lembrete: o vencimento da sua fatura é hoje.",
+      "Estamos à disposição para renegociar seu débito."
+    ];
 
-    // Funções de Cliente
     function salvarClientes() {
       localStorage.setItem('clientes', JSON.stringify(clientes));
-      renderizarClientes();
+      renderizarTabela();
     }
 
-    function renderizarClientes() {
+    function renderizarTabela() {
       tabela.innerHTML = '';
       clientes.forEach((cliente, index) => {
         const tr = document.createElement('tr');
@@ -169,27 +150,26 @@
           <td>${cliente.telefone}</td>
           <td>R$ ${parseFloat(cliente.valor).toFixed(2)}</td>
           <td>${cliente.vencimento}</td>
-          <td class="actions">
-            <button onclick="editarCliente(${index})">Editar</button>
+          <td>
+            <button onclick="abrirModal(${index})">Mensagem</button>
             <button onclick="excluirCliente(${index})">Excluir</button>
-            <button onclick="enviarWhatsapp(${index})">WhatsApp</button>
           </td>
         `;
         tabela.appendChild(tr);
       });
     }
 
-    formCliente.addEventListener('submit', e => {
+    form.addEventListener('submit', e => {
       e.preventDefault();
       const novoCliente = {
-        nome: formCliente.nome.value,
-        telefone: formCliente.telefone.value,
-        valor: formCliente.valor.value,
-        vencimento: formCliente.vencimento.value
+        nome: form.nome.value,
+        telefone: form.telefone.value,
+        valor: form.valor.value,
+        vencimento: form.vencimento.value
       };
       clientes.push(novoCliente);
       salvarClientes();
-      formCliente.reset();
+      form.reset();
     });
 
     busca.addEventListener('input', () => {
@@ -206,92 +186,44 @@
           <td>${cliente.telefone}</td>
           <td>R$ ${parseFloat(cliente.valor).toFixed(2)}</td>
           <td>${cliente.vencimento}</td>
-          <td class="actions">
-            <button onclick="editarCliente(${index})">Editar</button>
+          <td>
+            <button onclick="abrirModal(${index})">Mensagem</button>
             <button onclick="excluirCliente(${index})">Excluir</button>
-            <button onclick="enviarWhatsapp(${index})">WhatsApp</button>
           </td>
         `;
         tabela.appendChild(tr);
       });
     });
 
-    function editarCliente(index) {
-      const cliente = clientes[index];
-      formCliente.nome.value = cliente.nome;
-      formCliente.telefone.value = cliente.telefone;
-      formCliente.valor.value = cliente.valor;
-      formCliente.vencimento.value = cliente.vencimento;
-      clientes.splice(index, 1);
-      salvarClientes();
-    }
-
     function excluirCliente(index) {
       clientes.splice(index, 1);
       salvarClientes();
     }
 
-    function enviarWhatsapp(index) {
+    function abrirModal(index) {
       const cliente = clientes[index];
-      const mensagem = mensagens.length > 0 ? mensagens[0].conteudo : `Olá, ${cliente.nome}!`;
-      const texto = mensagem
-        .replace('{nome}', cliente.nome)
-        .replace('{valor}', cliente.valor)
-        .replace('{vencimento}', cliente.vencimento);
-      const link = `https://wa.me/55${cliente.telefone.replace(/\D/g, '')}?text=${encodeURIComponent(texto)}`;
-      window.open(link, '_blank');
-    }
-
-    // Funções de Mensagem
-    function salvarMensagens() {
-      localStorage.setItem('mensagens', JSON.stringify(mensagens));
-      renderizarMensagens();
-    }
-
-    function renderizarMensagens() {
-      listaMensagens.innerHTML = '';
-      mensagens.forEach((msg, index) => {
-        const div = document.createElement('div');
-        div.style.border = '1px solid #ccc';
-        div.style.padding = '0.5rem';
-        div.style.marginTop = '0.5rem';
-        div.innerHTML = `
-          <strong>${msg.titulo}</strong><br/>
-          <em>${msg.conteudo}</em><br/>
-          <button onclick="editarMensagem(${index})">Editar</button>
-          <button onclick="excluirMensagem(${index})">Excluir</button>
-        `;
-        listaMensagens.appendChild(div);
+      mensagemPadrao.innerHTML = '';
+      mensagens.forEach(msg => {
+        const option = document.createElement('option');
+        option.value = msg;
+        option.textContent = msg;
+        mensagemPadrao.appendChild(option);
       });
-    }
-
-    formMensagem.addEventListener('submit', e => {
-      e.preventDefault();
-      const novaMensagem = {
-        titulo: formMensagem.tituloMensagem.value,
-        conteudo: formMensagem.conteudoMensagem.value
+      mensagemPersonalizada.value = '';
+      modal.style.display = 'flex';
+      document.getElementById('enviarWhatsapp').onclick = () => {
+        const texto = mensagemPersonalizada.value || mensagemPadrao.value;
+        const link = `https://wa.me/55${cliente.telefone.replace(/\D/g, '')}?text=${encodeURIComponent(texto)}`;
+        window.open(link, '_blank');
+        fecharModal();
       };
-      mensagens.push(novaMensagem);
-      salvarMensagens();
-      formMensagem.reset();
-    });
-
-    function editarMensagem(index) {
-      const msg = mensagens[index];
-      formMensagem.tituloMensagem.value = msg.titulo;
-      formMensagem.conteudoMensagem.value = msg.conteudo;
-      mensagens.splice(index, 1);
-      salvarMensagens();
     }
 
-    function excluirMensagem(index) {
-      mensagens.splice(index, 1);
-      salvarMensagens();
+    function fecharModal() {
+      modal.style.display = 'none';
     }
 
-    // Inicialização
-    renderizarClientes();
-    renderizarMensagens();
+    renderizarTabela();
   </script>
 </body>
 </html>
