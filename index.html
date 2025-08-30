@@ -123,12 +123,34 @@
     }
 
     @media (max-width: 600px) {
-      .container {
-        padding: 0.5rem;
+      table, thead, tbody, th, td, tr {
+        display: block;
+        width: 100%;
       }
 
-      table, th, td {
-        font-size: 14px;
+      thead {
+        display: none;
+      }
+
+      tr {
+        margin-bottom: 1rem;
+        background-color: var(--card);
+        padding: 0.5rem;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+
+      td {
+        padding: 0.5rem;
+        border: none;
+      }
+
+      td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.25rem;
+        color: var(--primary);
       }
 
       .modal-content {
@@ -223,18 +245,18 @@
       clientes.forEach((cliente, index) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td>${cliente.nome}</td>
-          <td>${cliente.telefone}</td>
-          <td>R$ ${parseFloat(cliente.valor).toFixed(2)}</td>
-          <td>${cliente.vencimento}</td>
-          <td>
+          <td data-label="Nome">${cliente.nome}</td>
+          <td data-label="Telefone">${cliente.telefone}</td>
+          <td data-label="Valor">R$ ${parseFloat(cliente.valor).toFixed(2)}</td>
+          <td data-label="Vencimento">${cliente.vencimento}</td>
+          <td data-label="Ações">
             <button onclick="abrirModal(${index})">WhatsApp</button>
             <button onclick="editarCliente(${index})">Editar</button>
             <button onclick="excluirCliente(${index})">Excluir</button>
           </td>
         `;
         tabela.appendChild(tr);
-      });
+              });
     }
 
     formCliente.addEventListener('submit', e => {
@@ -252,15 +274,19 @@
 
     busca.addEventListener('input', () => {
       const termo = busca.value.toLowerCase();
-      const filtrados =
-              filtrados.forEach((cliente, index) => {
+      const filtrados = clientes.filter(c =>
+        c.nome.toLowerCase().includes(termo) ||
+        c.telefone.includes(termo)
+      );
+      tabela.innerHTML = '';
+      filtrados.forEach((cliente, index) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td>${cliente.nome}</td>
-          <td>${cliente.telefone}</td>
-          <td>R$ ${parseFloat(cliente.valor).toFixed(2)}</td>
-          <td>${cliente.vencimento}</td>
-          <td>
+          <td data-label="Nome">${cliente.nome}</td>
+          <td data-label="Telefone">${cliente.telefone}</td>
+          <td data-label="Valor">R$ ${parseFloat(cliente.valor).toFixed(2)}</td>
+          <td data-label="Vencimento">${cliente.vencimento}</td>
+          <td data-label="Ações">
             <button onclick="abrirModal(${index})">WhatsApp</button>
             <button onclick="editarCliente(${index})">Editar</button>
             <button onclick="excluirCliente(${index})">Excluir</button>
