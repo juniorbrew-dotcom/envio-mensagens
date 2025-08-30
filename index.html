@@ -153,15 +153,20 @@
         color: var(--primary);
       }
 
-      td[data-label="Ações"] {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
+td[data-label="Ações"] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: stretch;
+}
 
-      td[data-label="Ações"] button {
-        width: 100%;
-      }
+td[data-label="Ações"] button {
+  width: 100%;
+  margin: 0;
+  padding: 0.6rem;
+  font-size: 15px;
+  box-sizing: border-box;
+}
 
       .modal-content {
         width: 95%;
@@ -399,3 +404,4 @@
   </script>
 </body>
 </html>
+
