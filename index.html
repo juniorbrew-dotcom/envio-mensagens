@@ -14,42 +14,94 @@
   <link rel="apple-touch-icon" href="icon-512.png" />
   <meta name="theme-color" content="#4CAF50" />
 
+  <!-- Fonte moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Estilo Moderno e Minimalista -->
   <style>
+    :root {
+      --primary: #4CAF50;
+      --primary-dark: #388E3C;
+      --background: #f9f9f9;
+      --card: #ffffff;
+      --border: #e0e0e0;
+      --text: #333;
+      --radius: 8px;
+      --shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
       margin: 0;
       padding: 0;
-      background-color: #f4f4f4;
+      background-color: var(--background);
+      color: var(--text);
     }
+
     header {
-      background-color: #4CAF50;
+      background-color: var(--primary);
       color: white;
       padding: 1rem;
       text-align: center;
+      font-weight: 500;
+      box-shadow: var(--shadow);
     }
+
     .container {
+      max-width: 800px;
+      margin: auto;
       padding: 1rem;
+      background-color: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
     }
-    input, select, button, textarea {
-      margin: 0.5rem 0;
-      padding: 0.5rem;
+
+    h2 {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+
+    input, select, textarea, button {
       width: 100%;
-      box-sizing: border-box;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 1rem;
     }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--primary-dark);
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 1rem;
     }
+
     th, td {
-      border: 1px solid #ddd;
-      padding: 0.5rem;
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--border);
       text-align: left;
     }
+
     th {
-      background-color: #f2f2f2;
-      cursor: pointer;
+      background-color: #f5f5f5;
+      font-weight: 500;
     }
+
     .modal {
       display: none;
       position: fixed;
@@ -58,18 +110,24 @@
       background-color: rgba(0,0,0,0.5);
       justify-content: center;
       align-items: center;
+      z-index: 999;
     }
+
     .modal-content {
-      background-color: white;
+      background-color: var(--card);
       padding: 1rem;
-      border-radius: 5px;
+      border-radius: var(--radius);
       width: 90%;
       max-width: 500px;
+      box-shadow: var(--shadow);
     }
+
     .mensagem-item {
-      border: 1px solid #ccc;
-      padding: 0.5rem;
+      border: 1px solid var(--border);
+      padding: 0.75rem;
       margin-top: 0.5rem;
+      border-radius: var(--radius);
+      background-color: #fafafa;
     }
   </style>
 </head>
@@ -78,6 +136,7 @@
     <h1>Cadastro de Clientes</h1>
   </header>
   <div class="container">
+        <!-- Formulário de Cadastro -->
     <h2>Adicionar Cliente</h2>
     <form id="formCliente">
       <input type="text" id="nome" placeholder="Nome" required />
@@ -87,8 +146,10 @@
       <button type="submit">Salvar Cliente</button>
     </form>
 
+    <!-- Busca -->
     <input type="text" id="busca" placeholder="Buscar cliente..." />
 
+    <!-- Tabela de Clientes -->
     <table id="tabelaClientes">
       <thead>
         <tr>
@@ -102,6 +163,7 @@
       <tbody></tbody>
     </table>
 
+    <!-- Modal de Mensagens -->
     <div class="modal" id="modalMensagem">
       <div class="modal-content">
         <h3>Enviar Mensagem</h3>
@@ -112,6 +174,7 @@
       </div>
     </div>
 
+    <!-- Mensagens Padrão -->
     <h2>Mensagens Padrão</h2>
     <form id="formMensagem">
       <input type="text" id="tituloMensagem" placeholder="Digite um título para a mensagem..." required />
@@ -119,9 +182,9 @@
       <button type="submit">Adicionar Mensagem</button>
     </form>
     <div id="listaMensagens"></div>
-  </div>
-
-  <script>
+  </div> <!-- Fim da .container -->
+    <script>
+    // Registro do Service Worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
         .then(() => console.log('Service Worker registrado com sucesso!'))
@@ -230,8 +293,8 @@
       document.getElementById('enviarWhatsapp').onclick = () => {
         const texto = mensagemPersonalizada.value || mensagemPadrao.value;
         const mensagemFinal = texto
-          .replace('{nome}', cliente.nome
-                             .replace('{valor}', cliente.valor)
+          .replace('{nome}', cliente.nome)
+          .replace('{valor}', cliente.valor)
           .replace('{vencimento}', cliente.vencimento);
         const link = `https://wa.me/55${cliente.telefone.replace(/\D/g, '')}?text=${encodeURIComponent(mensagemFinal)}`;
         window.open(link, '_blank');
@@ -243,7 +306,6 @@
       modal.style.display = 'none';
     }
 
-    // Mensagens padrão
     function salvarMensagens() {
       localStorage.setItem('mensagens', JSON.stringify(mensagens));
       renderizarMensagens();
