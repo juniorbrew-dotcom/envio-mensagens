@@ -153,20 +153,20 @@
         color: var(--primary);
       }
 
-td[data-label="Ações"] {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  align-items: stretch;
-}
+      td[data-label="Ações"] {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: stretch;
+      }
 
-td[data-label="Ações"] button {
-  width: 100%;
-  margin: 0;
-  padding: 0.6rem;
-  font-size: 15px;
-  box-sizing: border-box;
-}
+      td[data-label="Ações"] button {
+        width: 100%;
+        margin: 0;
+        padding: 0.6rem;
+        font-size: 15px;
+        box-sizing: border-box;
+      }
 
       .modal-content {
         width: 95%;
@@ -258,15 +258,14 @@ td[data-label="Ações"] button {
     function renderizarClientes() {
       tabela.innerHTML = '';
       clientes.forEach((cliente, index) => {
-        const tr = document.createElement('tr');
+                const tr = document.createElement('tr');
         tr.innerHTML = `
           <td data-label="Nome">${cliente.nome}</td>
           <td data-label="Telefone">${cliente.telefone}</td>
           <td data-label="Valor">R$ ${parseFloat(cliente.valor).toFixed(2)}</td>
           <td data-label="Vencimento">${cliente.vencimento}</td>
           <td data-label="Ações">
-            <button onclick="abrirModal(${index})
-                        <button onclick="abrirModal(${index})">WhatsApp</button>
+            <button onclick="abrirModal(${index})">WhatsApp</button>
             <button onclick="editarCliente(${index})">Editar</button>
             <button onclick="excluirCliente(${index})">Excluir</button>
           </td>
@@ -404,4 +403,3 @@ td[data-label="Ações"] button {
   </script>
 </body>
 </html>
-
