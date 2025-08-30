@@ -17,7 +17,7 @@
   <!-- Fonte moderna -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" />
 
-  <!-- Estilo Moderno e Minimalista -->
+  <!-- Estilo Moderno, Minimalista e Responsivo -->
   <style>
     :root {
       --primary: #4CAF50;
@@ -85,6 +85,12 @@
       background-color: var(--primary-dark);
     }
 
+    button img {
+      vertical-align: middle;
+      margin-right: 0.5rem;
+      max-height: 24px;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -100,6 +106,12 @@
     th {
       background-color: #f5f5f5;
       font-weight: 500;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
     }
 
     .modal {
@@ -129,6 +141,29 @@
       border-radius: var(--radius);
       background-color: #fafafa;
     }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 0.5rem;
+      }
+
+      table, th, td {
+        font-size: 14px;
+      }
+
+      .modal-content {
+        width: 95%;
+        padding: 0.75rem;
+      }
+
+      input, select, textarea, button {
+        font-size: 15px;
+      }
+
+      button {
+        padding: 0.6rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -146,7 +181,7 @@
       <button type="submit">Salvar Cliente</button>
     </form>
 
-    <!-- Busca -->
+    <!-- Campo de Busca -->
     <input type="text" id="busca" placeholder="Buscar cliente..." />
 
     <!-- Tabela de Clientes -->
