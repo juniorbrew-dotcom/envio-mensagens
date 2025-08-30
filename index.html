@@ -258,11 +258,12 @@
     function renderizarClientes() {
       tabela.innerHTML = '';
       clientes.forEach((cliente, index) => {
-                const tr = document.createElement('tr');
+        const tr = document.createElement('tr');
         tr.innerHTML = `
           <td data-label="Nome">${cliente.nome}</td>
           <td data-label="Telefone">${cliente.telefone}</td>
-          <td data-label="Valor">R$ ${parseFloat(cliente.valor).toFixed(2)}</td>
+          <td data-label="
+                    <td data-label="Valor">R$ ${parseFloat(cliente.valor).toFixed(2)}</td>
           <td data-label="Vencimento">${cliente.vencimento}</td>
           <td data-label="Ações">
             <button onclick="abrirModal(${index})">WhatsApp</button>
@@ -337,13 +338,17 @@
       });
       mensagemPersonalizada.value = '';
       modal.style.display = 'flex';
-      document.getElementById('enviarWhatsapp').onclick = () => {
+
+      const enviarBtn = document.getElementById('enviarWhatsapp');
+      enviarBtn.onclick = () => {
         const texto = mensagemPersonalizada.value || mensagemPadrao.value;
         const mensagemFinal = texto
           .replace('{nome}', cliente.nome)
           .replace('{valor}', cliente.valor)
           .replace('{vencimento}', cliente.vencimento);
-        const link = `https://wa.me/55${cliente.telefone.replace(/\D/g, '')}?text=${encodeURIComponent(mensagemFinal)}`;
+
+        const numero = cliente.telefone.replace(/\D/g, '');
+        const link = `https://wa.me/55${numero}?text=${encodeURIComponent(mensagemFinal)}`;
         window.open(link, '_blank');
         fecharModal();
       };
