@@ -1,10 +1,11 @@
 {
-  "name": "RJ Soluções - Ferramenta de Mensagens",
-  "short_name": "RJ Mensagens",
-  "start_url": "./index.html",
+  "name": "Cadastro de Clientes",
+  "short_name": "Clientes",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#0078D7",
+  "theme_color": "#4CAF50",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",
