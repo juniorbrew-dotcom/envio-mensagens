@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Cadastro de Cliente</title>
+  <title>Cadastro de Clientes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -11,7 +11,6 @@
       padding: 20px;
       margin: 0;
     }
-
     .container {
       max-width: 800px;
       margin: auto;
@@ -20,18 +19,15 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
-    h2 {
+    h2, h3 {
       text-align: center;
       color: #333;
     }
-
     label {
       display: block;
       margin-top: 15px;
       font-weight: bold;
     }
-
     input, textarea {
       width: 100%;
       padding: 10px;
@@ -40,7 +36,6 @@
       border-radius: 5px;
       box-sizing: border-box;
     }
-
     button {
       margin-top: 20px;
       padding: 12px;
@@ -52,40 +47,25 @@
       font-size: 16px;
       cursor: pointer;
     }
-
     button:hover {
       background-color: #45a049;
     }
-
-    #busca {
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
-
     table {
       width: 100%;
       border-collapse: collapse;
-      table-layout: auto;
       margin-top: 10px;
-      overflow-x: auto;
     }
-
     th, td {
       padding: 8px 12px;
       border-bottom: 1px solid #ddd;
-      white-space: nowrap;
       font-size: 14px;
       text-align: center;
-      vertical-align: middle;
-      cursor: pointer;
     }
-
     th {
       background-color: #f2f2f2;
       font-weight: bold;
-      color: #333;
+      cursor: pointer;
     }
-
     .acoes button {
       display: block;
       width: 100%;
@@ -97,45 +77,19 @@
       color: white;
       cursor: pointer;
     }
-
-    .btn-editar {
-      background-color: #2196F3;
-    }
-
-    .btn-editar:hover {
-      background-color: #1976D2;
-    }
-
-    .btn-excluir {
-      background-color: #f44336;
-    }
-
-    .btn-excluir:hover {
-      background-color: #d32f2f;
-    }
-
-    .btn-whatsapp {
-      background-color: #25D366;
-    }
-
-    .btn-whatsapp:hover {
-      background-color: #1ebe5d;
-    }
-
-    /* Modal */
+    .btn-editar { background-color: #2196F3; }
+    .btn-excluir { background-color: #f44336; }
+    .btn-whatsapp { background-color: #25D366; }
     .modal-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: rgba(0,0,0,0.6);
       display: none;
       justify-content: center;
       align-items: center;
       z-index: 999;
     }
-
     .modal-content {
       background: white;
       padding: 20px;
@@ -144,22 +98,6 @@
       max-width: 400px;
       text-align: left;
     }
-
-    .modal-content h3 {
-      margin-top: 0;
-    }
-
-    .modal-content label {
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .modal-content button {
-      width: auto;
-      margin-right: 10px;
-    }
-
-    /* Lista de mensagens */
     #listaMensagensEditaveis li {
       list-style: none;
       margin-bottom: 10px;
@@ -172,13 +110,11 @@
       align-items: center;
       flex-wrap: wrap;
     }
-
     #listaMensagensEditaveis strong {
       display: block;
       font-weight: bold;
       margin-bottom: 5px;
     }
-
     #listaMensagensEditaveis button {
       background-color: #2196F3;
       color: white;
@@ -189,55 +125,28 @@
       font-size: 13px;
       margin-left: 5px;
     }
-
     #listaMensagensEditaveis button.excluir {
       background-color: #f44336;
     }
-
-    #listaMensagensEditaveis button.excluir:hover {
-      background-color: #d32f2f;
-    }
-
-    /* Responsivo */
     @media (max-width: 600px) {
-      th, td {
-        font-size: 12px;
-        padding: 6px;
-      }
-
-      .acoes button {
-        font-size: 12px;
-        padding: 8px;
-      }
-
-      button {
-        font-size: 14px;
-        padding: 10px;
-      }
-
-      input, textarea {
-        font-size: 14px;
-        padding: 10px;
-      }
+      th, td { font-size: 12px; padding: 6px; }
+      .acoes button, button { font-size: 14px; padding: 10px; }
+      input, textarea { font-size: 14px; padding: 10px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Cadastro de Cliente</h2>
+    <h2>Cadastro de Clientes</h2>
     <form id="cadastroForm">
       <label>Nome:</label>
       <input type="text" name="nome" required>
-
       <label>Telefone:</label>
-      <input type="tel" name="telefone" maxlength="11" placeholder="Ex: 11987654321" required>
-
+      <input type="tel" name="telefone" maxlength="11" required>
       <label>Valor (R$):</label>
-      <input type="number" name="valor" step="0.01" placeholder="150.00" required>
-
+      <input type="number" name="valor" step="0.01" required>
       <label>Vencimento:</label>
       <input type="date" name="vencimento" required>
-
       <button type="submit">Salvar</button>
     </form>
 
@@ -250,28 +159,25 @@
           <th onclick="ordenarPor('nome')">Nome</th>
           <th onclick="ordenarPor('telefone')">Telefone</th>
           <th onclick="ordenarPor('valor')">Valor</th>
-          <th onclick="ordenarPor('vencimento')">Venc.</th>
+          <th onclick="ordenarPor('vencimento')">Vencimento</th>
           <th>Ações</th>
         </tr>
       </thead>
       <tbody></tbody>
     </table>
 
-    <h3 style="margin-top:40px;">Mensagens Padrão para WhatsApp</h3>
+    <h3>Mensagens Padrão para WhatsApp</h3>
     <form id="formNovaMensagem">
       <label>Título da mensagem:</label>
-      <input type="text" id="tituloMensagem" placeholder="Ex: Lembrete de vencimento" required>
-
+      <input type="text" id="tituloMensagem" required>
       <label>Conteúdo da mensagem:</label>
-      <textarea id="conteudoMensagem" rows="3" placeholder="Digite uma mensagem com {nome}, {valor}, {vencimento}..." required></textarea>
-
+      <textarea id="conteudoMensagem" rows="3" required></textarea>
       <button type="submit" id="btnMensagem">Adicionar Mensagem</button>
     </form>
 
     <ul id="listaMensagensEditaveis"></ul>
   </div>
 
-  <!-- Modal WhatsApp -->
   <div id="modalWhatsapp" class="modal-overlay">
     <div class="modal-content">
       <h3>Escolha a mensagem para enviar</h3>
@@ -283,216 +189,9 @@
       </form>
     </div>
   </div>
+
   <script>
-  const form = document.getElementById('cadastroForm');
-  const tabela = document.querySelector('#tabelaClientes tbody');
-  const campoBusca = document.getElementById('busca');
-  const formNovaMensagem = document.getElementById('formNovaMensagem');
-  const tituloMensagemInput = document.getElementById('tituloMensagem');
-  const conteudoMensagemInput = document.getElementById('conteudoMensagem');
-  const btnMensagem = document.getElementById('btnMensagem');
-  const listaMensagensEditaveis = document.getElementById('listaMensagensEditaveis');
-  const listaMensagens = document.getElementById('listaMensagens');
-
-  let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-  let mensagensPadrao = JSON.parse(localStorage.getItem('mensagensPadrao')) || [
-    { titulo: 'Lembrete simples', texto: 'Olá, {nome}! Seu vencimento é em {vencimento}.' },
-    { titulo: 'Mensagem detalhada', texto: 'Bom dia, {nome}. O valor de R$ {valor} vence em {vencimento}.' },
-    { titulo: 'Aviso curto', texto: 'Oi {nome}, lembrete: vencimento em {vencimento}.' }
-  ];
-  let editandoIndex = null;
-  let ordemAtual = { campo: '', crescente: true };
-  let editandoMensagemIndex = null;
-
-  function salvarLocalStorage() {
-    localStorage.setItem('clientes', JSON.stringify(clientes));
-    localStorage.setItem('mensagensPadrao', JSON.stringify(mensagensPadrao));
-  }
-
-  function formatarTelefone(numero) {
-    const limpo = numero.replace(/\D/g, '');
-    if (limpo.length === 11) {
-      return `(${limpo.slice(0, 2)}) ${limpo.slice(2, 7)}-${limpo.slice(7)}`;
-    } else if (limpo.length === 10) {
-      return `(${limpo.slice(0, 2)}) ${limpo.slice(2, 6)}-${limpo.slice(6)}`;
-    } else {
-      return numero;
-    }
-  }
-
-  function formatarData(dataStr) {
-    const data = new Date(dataStr);
-    const dia = String(data.getDate()).padStart(2, '0');
-    const mes = String(data.getMonth() + 1).padStart(2, '0');
-    const ano = data.getFullYear();
-    return `${dia}-${mes}-${ano}`;
-  }
-
-  function ordenarPor(campo) {
-    if (ordemAtual.campo === campo) {
-      ordemAtual.crescente = !ordemAtual.crescente;
-    } else {
-      ordemAtual.campo = campo;
-      ordemAtual.crescente = true;
-    }
-
-    clientes.sort((a, b) => {
-      let valA = a[campo];
-      let valB = b[campo];
-
-      if (campo === 'valor') {
-        valA = parseFloat(valA);
-        valB = parseFloat(valB);
-      } else if (campo === 'vencimento') {
-        valA = new Date(a.vencimentoOriginal);
-        valB = new Date(b.vencimentoOriginal);
-      } else {
-        valA = valA.toLowerCase();
-        valB = valB.toLowerCase();
-      }
-
-      if (valA < valB) return ordemAtual.crescente ? -1 : 1;
-      if (valA > valB) return ordemAtual.crescente ? 1 : -1;
-      return 0;
-    });
-
-    atualizarTabela(campoBusca.value);
-  }
-
-  function atualizarTabela(filtro = '') {
-    tabela.innerHTML = '';
-    clientes.forEach((cliente, index) => {
-      const texto = `${cliente.nome} ${cliente.telefone}`.toLowerCase();
-      if (texto.includes(filtro.toLowerCase())) {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${cliente.nome}</td>
-          <td>${cliente.telefone}</td>
-          <td>R$ ${cliente.valor}</td>
-          <td>${cliente.vencimento}</td>
-          <td class="acoes">
-            <button class="btn-editar" onclick="editarCliente(${index})">Editar</button>
-            <button class="btn-excluir" onclick="excluirCliente(${index})">Excluir</button>
-            <button class="btn-whatsapp" onclick="abrirModal(${index})">WhatsApp</button>
-          </td>
-        `;
-        tabela.appendChild(tr);
-      }
-    });
-  }
-
-  function atualizarListaMensagensEditaveis() {
-    listaMensagensEditaveis.innerHTML = '';
-    mensagensPadrao.forEach((msg, i) => {
-      const li = document.createElement('li');
-      li.innerHTML = `
-        <div style="flex: 1;">
-          <strong>${msg.titulo}</strong>
-          <span>${msg.texto}</span>
-        </div>
-        <div>
-          <button onclick="editarMensagem(${i})">Editar</button>
-          <button class="excluir" onclick="excluirMensagem(${i})">Excluir</button>
-        </div>
-      `;
-      listaMensagensEditaveis.appendChild(li);
-    });
-  }
-
-  window.editarCliente = function(index) {
-    const cliente = clientes[index];
-    form.nome.value = cliente.nome;
-    form.telefone.value = cliente.telefone.replace(/\D/g, '');
-    form.valor.value = cliente.valor;
-    form.vencimento.value = cliente.vencimentoOriginal;
-    editandoIndex = index;
-  }
-
-  window.excluirCliente = function(index) {
-    const cliente = clientes[index];
-    const confirmar = confirm(`Tem certeza que deseja excluir o cliente "${cliente.nome}"?`);
-    if (confirmar) {
-      clientes.splice(index, 1);
-      salvarLocalStorage();
-      atualizarTabela(campoBusca.value);
-    }
-  }
-
-  function abrirModal(index) {
-    document.getElementById('modalIndex').value = index;
-    listaMensagens.innerHTML = '';
-    mensagensPadrao.forEach((msg, i) => {
-      const label = document.createElement('label');
-      label.innerHTML = `<input type="radio" name="mensagem" value="${i}" ${i === 0 ? 'checked' : ''}> <strong>${msg.titulo}</strong>`;
-      listaMensagens.appendChild(label);
-    });
-    document.getElementById('modalWhatsapp').style.display = 'flex';
-  }
-
-  function fecharModal() {
-    document.getElementById('modalWhatsapp').style.display = 'none';
-  }
-
-  document.getElementById('formMensagem').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const index = parseInt(document.getElementById('modalIndex').value);
-    const cliente = clientes[index];
-    const numero = cliente.telefone.replace(/\D/g, '');
-    const selecionada = document.querySelector('input[name="mensagem"]:checked').value;
-
-    const mensagem = mensagensPadrao[selecionada].texto
-      .replace('{nome}', cliente.nome)
-      .replace('{valor}', cliente.valor)
-      .replace('{vencimento}', cliente.vencimento);
-
-    const texto = encodeURIComponent(mensagem);
-    const link = `https://wa.me/55${numero}?text=${texto}`;
-    window.open(link, '_blank');
-    fecharModal();
-  });
-
-  formNovaMensagem.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const titulo = tituloMensagemInput.value.trim();
-    const texto = conteudoMensagemInput.value.trim();
-    if (titulo === '' || texto === '') return;
-
-    if (editandoMensagemIndex !== null) {
-      mensagensPadrao[editandoMensagemIndex] = { titulo, texto };
-      editandoMensagemIndex = null;
-      btnMensagem.textContent = 'Adicionar Mensagem';
-    } else {
-      mensagensPadrao.push({ titulo, texto });
-    }
-
-    tituloMensagemInput.value = '';
-    conteudoMensagemInput.value = '';
-    salvarLocalStorage();
-    atualizarListaMensagensEditaveis();
-  });
-
-  window.editarMensagem = function(index) {
-    tituloMensagemInput.value = mensagensPadrao[index].titulo;
-    conteudoMensagemInput.value = mensagensPadrao[index].texto;
-    editandoMensagemIndex = index;
-    btnMensagem.textContent = 'Atualizar Mensagem';
-  }
-
-  window.excluirMensagem = function(index) {
-    const confirmar = confirm('Deseja realmente excluir esta mensagem?');
-    if (confirmar) {
-      mensagensPadrao.splice(index, 1);
-      salvarLocalStorage();
-      atualizarListaMensagensEditaveis();
-    }
-  }
-
-  campoBusca.addEventListener('input', function() {
-    atualizarTabela(this.value);
-  });
-
-  atualizarTabela();
-  atualizarListaMensagensEditaveis();
-</script>
+    // JavaScript completo aqui (vou te mandar no próximo bloco)
+  </script>
 </body>
 </html>
