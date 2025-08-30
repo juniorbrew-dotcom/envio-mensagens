@@ -56,6 +56,7 @@
       background-color: var(--card);
       border-radius: var(--radius);
       box-shadow: var(--glow);
+      overflow-x: hidden;
     }
 
     h2 {
@@ -74,6 +75,7 @@
       font-size: 1rem;
       background-color: #121212;
       color: var(--text);
+      box-sizing: border-box;
     }
 
     button {
@@ -168,6 +170,7 @@
 
       input, select, textarea, button {
         font-size: 15px;
+        box-sizing: border-box;
       }
 
       button {
@@ -184,10 +187,10 @@
         <!-- Formulário de Cadastro -->
     <h2>Adicionar Cliente</h2>
     <form id="formCliente">
-      <input type="text" id="nome" placeholder="Nome" required />
-      <input type="tel" id="telefone" placeholder="Telefone (com DDD)" required />
-      <input type="number" id="valor" placeholder="Valor (R$)" required min="0" step="0.01" />
-      <input type="date" id="vencimento" required />
+      <input type="text" id="nome" name="nome" placeholder="Nome" required />
+      <input type="tel" id="telefone" name="telefone" placeholder="Telefone (com DDD)" required />
+      <input type="number" id="valor" name="valor" placeholder="Valor (R$)" required min="0" step="0.01" />
+      <input type="date" id="vencimento" name="vencimento" required />
       <button type="submit">Salvar Cliente</button>
     </form>
 
@@ -219,8 +222,8 @@
       </div>
     </div>
 
-    <!-- Mensagens Padrão -->
-    <h2>Mensagens Padrão</h2>
+    <!-- Mensagens Cobrança -->
+    <h2>Mensagens Cobrança</h2>
     <form id="formMensagem">
       <input type="text" id="tituloMensagem" placeholder="Digite um título para a mensagem..." required />
       <textarea id="conteudoMensagem" rows="3" placeholder="Digite uma mensagem com os campos {nome}, {valor}, {vencimento}..." required></textarea>
@@ -380,7 +383,7 @@
       mensagens.push(novaMensagem);
       salvarMensagens();
       formMensagem.reset();
-    }
+    });
 
     function editarMensagem(index) {
       const msg = mensagens[index];
