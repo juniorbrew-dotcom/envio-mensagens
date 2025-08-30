@@ -8,13 +8,12 @@
   <meta name="author" content="Edson" />
   <title>Cadastro de Clientes</title>
 
-  <!-- PWA -->
+  <!-- PWA Essentials -->
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon-192.png" />
   <link rel="apple-touch-icon" href="icon-512.png" />
   <meta name="theme-color" content="#4CAF50" />
 
-  <!-- Estilos -->
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -79,7 +78,6 @@
     <h1>Cadastro de Clientes</h1>
   </header>
   <div class="container">
-        <!-- Formulário de Cadastro -->
     <h2>Adicionar Cliente</h2>
     <form id="formCliente">
       <input type="text" id="nome" placeholder="Nome" required />
@@ -89,10 +87,8 @@
       <button type="submit">Salvar Cliente</button>
     </form>
 
-    <!-- Busca -->
     <input type="text" id="busca" placeholder="Buscar cliente..." />
 
-    <!-- Tabela de Clientes -->
     <table id="tabelaClientes">
       <thead>
         <tr>
@@ -106,7 +102,6 @@
       <tbody></tbody>
     </table>
 
-    <!-- Modal de Mensagens -->
     <div class="modal" id="modalMensagem">
       <div class="modal-content">
         <h3>Enviar Mensagem</h3>
@@ -117,7 +112,6 @@
       </div>
     </div>
 
-    <!-- Mensagens Padrão -->
     <h2>Mensagens Padrão</h2>
     <form id="formMensagem">
       <input type="text" id="tituloMensagem" placeholder="Digite um título para a mensagem..." required />
@@ -125,23 +119,26 @@
       <button type="submit">Adicionar Mensagem</button>
     </form>
     <div id="listaMensagens"></div>
-  </div> <!-- Fim da .container -->
-    <!-- Scripts -->
+  </div>
+
   <script>
-    // Registro do Service Worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
         .then(() => console.log('Service Worker registrado com sucesso!'))
         .catch(error => console.error('Erro ao registrar Service Worker:', error));
     }
 
-    // Dados iniciais
     let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
     let mensagens = JSON.parse(localStorage.getItem('mensagens')) || [];
 
     const formCliente = document.getElementById('formCliente');
     const tabela = document.getElementById('tabelaClientes').querySelector('tbody');
     const busca = document.getElementById('busca');
+    const mensagemPadrao = document.getElementById('mensagemPadrao');
+    const mensagemPersonalizada = document.getElementById('mensagemPersonalizada');
+    const modal = document.getElementById('modalMensagem');
+    const formMensagem = document.getElementById('formMensagem');
+    const listaMensagens = document.getElementById('listaMensagens');
 
     function salvarClientes() {
       localStorage.setItem('clientes', JSON.stringify(clientes));
@@ -218,10 +215,6 @@
       clientes.splice(index, 1);
       salvarClientes();
     }
-        // Modal de envio via WhatsApp
-    const mensagemPadrao = document.getElementById('mensagemPadrao');
-    const mensagemPersonalizada = document.getElementById('mensagemPersonalizada');
-    const modal = document.getElementById('modalMensagem');
 
     function abrirModal(index) {
       const cliente = clientes[index];
@@ -237,8 +230,8 @@
       document.getElementById('enviarWhatsapp').onclick = () => {
         const texto = mensagemPersonalizada.value || mensagemPadrao.value;
         const mensagemFinal = texto
-          .replace('{nome}', cliente.nome)
-          .replace('{valor}', cliente.valor)
+          .replace('{nome}', cliente.nome
+                             .replace('{valor}', cliente.valor)
           .replace('{vencimento}', cliente.vencimento);
         const link = `https://wa.me/55${cliente.telefone.replace(/\D/g, '')}?text=${encodeURIComponent(mensagemFinal)}`;
         window.open(link, '_blank');
@@ -251,9 +244,6 @@
     }
 
     // Mensagens padrão
-    const formMensagem = document.getElementById('formMensagem');
-    const listaMensagens = document.getElementById('listaMensagens');
-
     function salvarMensagens() {
       localStorage.setItem('mensagens', JSON.stringify(mensagens));
       renderizarMensagens();
