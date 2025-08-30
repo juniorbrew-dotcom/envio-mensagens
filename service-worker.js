@@ -1,10 +1,11 @@
-const CACHE_NAME = 'cliente-app-v1';
+const CACHE_NAME = 'cliente-app-v2';
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
   '/icon-192.png',
-  '/icon-512.png'
+  '/icon-512.png',
+  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap'
 ];
 
 // Instala o service worker e armazena os arquivos no cache
