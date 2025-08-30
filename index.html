@@ -8,7 +8,7 @@
   <meta name="author" content="Edson" />
   <title>Cadastro de Clientes</title>
 
-  <!-- Ícones para PWA -->
+  <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon-192.png" />
   <link rel="apple-touch-icon" href="icon-512.png" />
@@ -31,7 +31,7 @@
     .container {
       padding: 1rem;
     }
-    input, select, button {
+    input, select, button, textarea {
       margin: 0.5rem 0;
       padding: 0.5rem;
       width: 100%;
@@ -67,6 +67,11 @@
       width: 90%;
       max-width: 500px;
     }
+    .mensagem-item {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body>
@@ -91,10 +96,10 @@
     <table id="tabelaClientes">
       <thead>
         <tr>
-          <th data-col="nome">Nome</th>
-          <th data-col="telefone">Telefone</th>
-          <th data-col="valor">Valor</th>
-          <th data-col="vencimento">Vencimento</th>
+          <th>Nome</th>
+          <th>Telefone</th>
+          <th>Valor</th>
+          <th>Vencimento</th>
           <th>Ações</th>
         </tr>
       </thead>
@@ -111,9 +116,17 @@
         <button onclick="fecharModal()">Fechar</button>
       </div>
     </div>
-      </div> <!-- Fim da .container -->
 
-  <!-- Scripts -->
+    <!-- Mensagens Padrão -->
+    <h2>Mensagens Padrão</h2>
+    <form id="formMensagem">
+      <input type="text" id="tituloMensagem" placeholder="Digite um título para a mensagem..." required />
+      <textarea id="conteudoMensagem" rows="3" placeholder="Digite uma mensagem com os campos {nome}, {valor}, {vencimento}..." required></textarea>
+      <button type="submit">Adicionar Mensagem</button>
+    </form>
+    <div id="listaMensagens"></div>
+  </div> <!-- Fim da .container -->
+    <!-- Scripts -->
   <script>
     // Registro do Service Worker
     if ('serviceWorker' in navigator) {
@@ -122,26 +135,20 @@
         .catch(error => console.error('Erro ao registrar Service Worker:', error));
     }
 
-    // Dados e funções principais
-    const form = document.getElementById('formCliente');
+    // Dados iniciais
+    let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+    let mensagens = JSON.parse(localStorage.getItem('mensagens')) || [];
+
+    const formCliente = document.getElementById('formCliente');
     const tabela = document.getElementById('tabelaClientes').querySelector('tbody');
     const busca = document.getElementById('busca');
-    const mensagemPadrao = document.getElementById('mensagemPadrao');
-    const mensagemPersonalizada = document.getElementById('mensagemPersonalizada');
-    const modal = document.getElementById('modalMensagem');
-    let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-    let mensagens = [
-      "Olá, tudo bem? Seu pagamento está pendente.",
-      "Lembrete: o vencimento da sua fatura é hoje.",
-      "Estamos à disposição para renegociar seu débito."
-    ];
 
     function salvarClientes() {
       localStorage.setItem('clientes', JSON.stringify(clientes));
-      renderizarTabela();
+      renderizarClientes();
     }
 
-    function renderizarTabela() {
+    function renderizarClientes() {
       tabela.innerHTML = '';
       clientes.forEach((cliente, index) => {
         const tr = document.createElement('tr');
@@ -151,7 +158,8 @@
           <td>R$ ${parseFloat(cliente.valor).toFixed(2)}</td>
           <td>${cliente.vencimento}</td>
           <td>
-            <button onclick="abrirModal(${index})">Mensagem</button>
+            <button onclick="abrirModal(${index})">WhatsApp</button>
+            <button onclick="editarCliente(${index})">Editar</button>
             <button onclick="excluirCliente(${index})">Excluir</button>
           </td>
         `;
@@ -159,17 +167,17 @@
       });
     }
 
-    form.addEventListener('submit', e => {
+    formCliente.addEventListener('submit', e => {
       e.preventDefault();
       const novoCliente = {
-        nome: form.nome.value,
-        telefone: form.telefone.value,
-        valor: form.valor.value,
-        vencimento: form.vencimento.value
+        nome: formCliente.nome.value,
+        telefone: formCliente.telefone.value,
+        valor: formCliente.valor.value,
+        vencimento: formCliente.vencimento.value
       };
       clientes.push(novoCliente);
       salvarClientes();
-      form.reset();
+      formCliente.reset();
     });
 
     busca.addEventListener('input', () => {
@@ -187,7 +195,8 @@
           <td>R$ ${parseFloat(cliente.valor).toFixed(2)}</td>
           <td>${cliente.vencimento}</td>
           <td>
-            <button onclick="abrirModal(${index})">Mensagem</button>
+            <button onclick="abrirModal(${index})">WhatsApp</button>
+            <button onclick="editarCliente(${index})">Editar</button>
             <button onclick="excluirCliente(${index})">Excluir</button>
           </td>
         `;
@@ -195,25 +204,43 @@
       });
     });
 
+    function editarCliente(index) {
+      const cliente = clientes[index];
+      formCliente.nome.value = cliente.nome;
+      formCliente.telefone.value = cliente.telefone;
+      formCliente.valor.value = cliente.valor;
+      formCliente.vencimento.value = cliente.vencimento;
+      clientes.splice(index, 1);
+      salvarClientes();
+    }
+
     function excluirCliente(index) {
       clientes.splice(index, 1);
       salvarClientes();
     }
+        // Modal de envio via WhatsApp
+    const mensagemPadrao = document.getElementById('mensagemPadrao');
+    const mensagemPersonalizada = document.getElementById('mensagemPersonalizada');
+    const modal = document.getElementById('modalMensagem');
 
     function abrirModal(index) {
       const cliente = clientes[index];
       mensagemPadrao.innerHTML = '';
       mensagens.forEach(msg => {
         const option = document.createElement('option');
-        option.value = msg;
-        option.textContent = msg;
+        option.value = msg.conteudo;
+        option.textContent = msg.titulo;
         mensagemPadrao.appendChild(option);
       });
       mensagemPersonalizada.value = '';
       modal.style.display = 'flex';
       document.getElementById('enviarWhatsapp').onclick = () => {
         const texto = mensagemPersonalizada.value || mensagemPadrao.value;
-        const link = `https://wa.me/55${cliente.telefone.replace(/\D/g, '')}?text=${encodeURIComponent(texto)}`;
+        const mensagemFinal = texto
+          .replace('{nome}', cliente.nome)
+          .replace('{valor}', cliente.valor)
+          .replace('{vencimento}', cliente.vencimento);
+        const link = `https://wa.me/55${cliente.telefone.replace(/\D/g, '')}?text=${encodeURIComponent(mensagemFinal)}`;
         window.open(link, '_blank');
         fecharModal();
       };
@@ -223,7 +250,57 @@
       modal.style.display = 'none';
     }
 
-    renderizarTabela();
+    // Mensagens padrão
+    const formMensagem = document.getElementById('formMensagem');
+    const listaMensagens = document.getElementById('listaMensagens');
+
+    function salvarMensagens() {
+      localStorage.setItem('mensagens', JSON.stringify(mensagens));
+      renderizarMensagens();
+    }
+
+    function renderizarMensagens() {
+      listaMensagens.innerHTML = '';
+      mensagens.forEach((msg, index) => {
+        const div = document.createElement('div');
+        div.className = 'mensagem-item';
+        div.innerHTML = `
+          <strong>${msg.titulo}</strong><br/>
+          <em>${msg.conteudo}</em><br/>
+          <button onclick="editarMensagem(${index})">Editar</button>
+          <button onclick="excluirMensagem(${index})">Excluir</button>
+        `;
+        listaMensagens.appendChild(div);
+      });
+    }
+
+    formMensagem.addEventListener('submit', e => {
+      e.preventDefault();
+      const novaMensagem = {
+        titulo: formMensagem.tituloMensagem.value,
+        conteudo: formMensagem.conteudoMensagem.value
+      };
+      mensagens.push(novaMensagem);
+      salvarMensagens();
+      formMensagem.reset();
+    });
+
+    function editarMensagem(index) {
+      const msg = mensagens[index];
+      formMensagem.tituloMensagem.value = msg.titulo;
+      formMensagem.conteudoMensagem.value = msg.conteudo;
+      mensagens.splice(index, 1);
+      salvarMensagens();
+    }
+
+    function excluirMensagem(index) {
+      mensagens.splice(index, 1);
+      salvarMensagens();
+    }
+
+    // Inicialização
+    renderizarClientes();
+    renderizarMensagens();
   </script>
 </body>
 </html>
